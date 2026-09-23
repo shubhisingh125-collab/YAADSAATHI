@@ -149,7 +149,7 @@ export default function FamilyCaregiver() {
                     </div>
 
                     <h3 className="text-xl sm:text-2xl font-black text-[#102A43] mt-1">
-                      {patient.nameHindi || 'दामोदर जी'} {isHindi ? 'ने दवाई लेने की पुष्टि नहीं की:' : 'has not confirmed taking:'}{' '}
+                      {patient?.preferredName || (isHindi ? (patient?.nameHindi || patient?.name || 'वरिष्ठ सदस्य') : (patient?.nameEnglish || patient?.name || 'Dear Senior'))} {isHindi ? 'ने दवाई लेने की पुष्टि नहीं की:' : 'has not confirmed taking:'}{' '}
                       <span className="text-[#E84D78]">{alert.medicineName}</span> ({alert.dosage})
                     </h3>
                     <p className="text-xs sm:text-sm font-semibold text-[#5D7184] mt-0.5">
@@ -264,7 +264,7 @@ export default function FamilyCaregiver() {
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-xl sm:text-2xl font-black text-[#102A43]">
-                  SafeCircle • {isHindi ? patient.nameHindi : patient.nameEnglish}
+                  SafeCircle • {patient?.preferredName || (isHindi ? (patient?.nameHindi || patient?.name || 'वरिष्ठ सदस्य') : (patient?.nameEnglish || patient?.name || 'Dear Senior'))}
                 </span>
               </div>
 
@@ -689,7 +689,7 @@ export default function FamilyCaregiver() {
 
                     {isPending && (
                       <button
-                        onClick={() => handleSimulateCall(patient.nameHindi || 'दामोदर जी', '+91 98765 43210')}
+                        onClick={() => handleSimulateCall(patient?.preferredName || (isHindi ? (patient?.nameHindi || patient?.name || 'वरिष्ठ सदस्य') : (patient?.nameEnglish || patient?.name || 'Dear Senior')), patient?.emergencyContact?.phone || '+91 98765 43210')}
                         className="tactile-btn w-full py-3 rounded-2xl bg-[#E98A20] text-white font-black text-sm flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
                       >
                         <PhoneCall className="w-4 h-4 stroke-[2.5]" />

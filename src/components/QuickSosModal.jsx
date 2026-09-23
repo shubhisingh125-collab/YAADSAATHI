@@ -107,14 +107,14 @@ export default function QuickSosModal() {
               <span>{t('sosMyHomeAddress')}:</span>
             </div>
             <VoiceButton
-              textHindi={`आपका घर का पता है: ${patient.homeAddressHindi}।`}
-              textEnglish={`Your home address is: ${patient.homeAddressEnglish}.`}
+              textHindi={`आपका घर का पता है: ${patient?.homeAddressHindi || patient?.homeAddress || ''}।`}
+              textEnglish={`Your home address is: ${patient?.homeAddressEnglish || patient?.homeAddress || ''}.`}
               size="sm"
               label=""
             />
           </div>
           <p className="mt-1 text-xl font-black text-[#102A43]">
-            {isHindi ? patient.homeAddressHindi : patient.homeAddressEnglish}
+            {isHindi ? (patient?.homeAddressHindi || patient?.homeAddress || '') : (patient?.homeAddressEnglish || patient?.homeAddress || '')}
           </p>
         </div>
 
@@ -129,7 +129,7 @@ export default function QuickSosModal() {
           >
             <div>
               <p className="text-xl font-black text-[#E84D78]">{daughterName}</p>
-              <p className="text-sm font-bold text-[#102A43]">{patient.emergencyContact?.phone}</p>
+              <p className="text-sm font-bold text-[#102A43]">{patient?.emergencyContact?.phone || '+91 98765 43210'}</p>
             </div>
             <span className="px-4 py-2 bg-[#E84D78] text-white rounded-xl font-black text-base flex items-center gap-1.5">
               <PhoneCall className="w-4 h-4" aria-hidden="true" /> {t('sosCallBtn')}
@@ -138,13 +138,13 @@ export default function QuickSosModal() {
 
           {/* Doctor */}
           <button
-            onClick={() => handleConfirmCall(patient.doctorContact?.name)}
+            onClick={() => handleConfirmCall(patient?.doctorContact?.name || (isHindi ? 'डॉ. एस. के. वर्मा' : 'Dr. S. K. Verma'))}
             className="tactile-btn w-full p-4 rounded-2xl bg-[#EAF7EF] hover:bg-[#DFF3E7] border-2 border-[#167A55]/30 flex items-center justify-between text-left cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
           >
             <div>
-              <p className="text-lg font-black text-[#167A55]">{patient.doctorContact?.name}</p>
+              <p className="text-lg font-black text-[#167A55]">{patient?.doctorContact?.name || (isHindi ? 'डॉ. एस. के. वर्मा' : 'Dr. S. K. Verma')}</p>
               <p className="text-sm font-bold text-[#102A43]">
-                {patient.doctorContact?.clinic} ({patient.doctorContact?.phone})
+                {patient?.doctorContact?.clinic || (isHindi ? 'मेमोरी केयर क्लिनिक' : 'Memory Care Clinic')} ({patient?.doctorContact?.phone || '+91 98765 00000'})
               </p>
             </div>
             <span className="px-4 py-2 bg-[#167A55] text-white rounded-xl font-black text-base flex items-center gap-1.5">

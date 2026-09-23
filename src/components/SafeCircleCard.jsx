@@ -13,6 +13,7 @@ import SafeCircleMapModal from './SafeCircleMapModal';
 
 export default function SafeCircleCard() {
   const {
+    patient,
     locationSharing,
     toggleLocationSharing,
     userLocation,

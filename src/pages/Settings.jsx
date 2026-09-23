@@ -40,15 +40,15 @@ export default function Settings() {
 
   const { t, language, setLanguage, isHindi } = useI18n();
 
-  const [nameInput, setNameInput] = useState(patient.nameHindi);
-  const [nameEnglishInput, setNameEnglishInput] = useState(patient.nameEnglish);
+  const [nameInput, setNameInput] = useState(patient?.nameHindi || patient?.name || '');
+  const [nameEnglishInput, setNameEnglishInput] = useState(patient?.nameEnglish || patient?.name || '');
   const [nameSaved, setNameSaved] = useState(false);
 
   // Keep the input in sync if the patient profile changes elsewhere (e.g. Reset Demo Data)
   useEffect(() => {
-    setNameInput(patient.nameHindi);
-    setNameEnglishInput(patient.nameEnglish);
-  }, [patient.nameHindi, patient.nameEnglish]);
+    setNameInput(patient?.nameHindi || patient?.name || '');
+    setNameEnglishInput(patient?.nameEnglish || patient?.name || '');
+  }, [patient?.nameHindi, patient?.nameEnglish, patient?.name]);
 
   const handleSaveName = (e) => {
     e.preventDefault();
