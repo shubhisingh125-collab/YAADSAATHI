@@ -52,15 +52,18 @@ export default function SafeCircleCard() {
   };
 
   // Text for Speech
+  const elderNameHi = patient?.preferredName || patient?.nameHindi || patient?.name || 'वरिष्ठ सदस्य';
+  const elderNameEn = patient?.preferredName || patient?.nameEnglish || patient?.name || 'Dear Senior';
+
   const statusSpeechTextHindi = locationSharing
     ? isSafe
-      ? `दामोदर जी, आप अपने सुरक्षित क्षेत्र में हैं। घर से दूरी ${distanceFromHome} मीटर है। आपकी लोकेशन रवि शर्मा के साथ सुरक्षित रूप से साझा है।`
-      : `ध्यान दें! आप सुरक्षित क्षेत्र से बाहर हैं। घर से दूरी ${distanceFromHome} मीटर है। रवि शर्मा को सूचित किया गया है।`
+      ? `${elderNameHi}, आप अपने सुरक्षित क्षेत्र में हैं। घर से दूरी ${distanceFromHome} मीटर है। आपकी लोकेशन परिवार के साथ सुरक्षित रूप से साझा है।`
+      : `ध्यान दें! आप सुरक्षित क्षेत्र से बाहर हैं। घर से दूरी ${distanceFromHome} मीटर है। देखभालकर्ता को सूचित किया गया है।`
     : 'स्थान साझा करना अभी बंद है।';
 
   const statusSpeechTextEnglish = locationSharing
     ? isSafe
-      ? `Damodar Ji, you are inside your safe zone. Distance from home is ${distanceFromHome} meters. Location is shared with Ravi Sharma.`
+      ? `${elderNameEn}, you are inside your safe zone. Distance from home is ${distanceFromHome} meters. Location is safely shared with family.`
       : `Alert! You are outside your safe zone. Distance from home is ${distanceFromHome} meters.`
     : 'Location sharing is currently turned off.';
 

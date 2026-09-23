@@ -16,7 +16,7 @@ export default function MedicineReminderModal() {
   if (!activeMedicineReminder) return null;
 
   const med = activeMedicineReminder;
-  const patientName = isHindi ? (patient?.nameHindi || 'दामोदर जी') : (patient?.nameEnglish || 'Damodar Ji');
+  const patientName = patient?.preferredName || (isHindi ? (patient?.nameHindi || patient?.name || 'वरिष्ठ सदस्य') : (patient?.nameEnglish || patient?.name || 'Dear Senior'));
 
   const speechHindi = `${patientName}, आपकी ${med.name} लेने का समय हो गया है। खुराक: ${med.dosage}। निर्देश: ${med.instructions}। कृपया दवाई लेने के बाद 'मैंने दवाई ले ली' बटन दबाएं।`;
   const speechEnglish = `${patientName}, it is time to take your ${med.name}. Dosage: ${med.dosage}. Instructions: ${med.instructions}. Please press 'I Took My Medicine' after taking it.`;

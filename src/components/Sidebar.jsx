@@ -6,6 +6,7 @@ import {
   TrendingUp,
   Heart,
   Settings as SettingsIcon,
+  Bot,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { useI18n } from '../i18n/I18nContext';
@@ -23,8 +24,9 @@ export default function Sidebar() {
       subEnglish: 'Cognitive',
       icon: Gamepad2,
       color: 'text-[#2879D0]',
-      activeMatches: ['games', 'memory-match', 'pattern-recognition', 'word-recall', 'picture-recall'],
+      activeMatches: ['games', 'memory-match', 'pattern-recognition', 'word-recall', 'picture-recall', 'daily-routine-recall', 'sequence-recall', 'pattern-complete', 'find-difference', 'personal-memory'],
     },
+    { id: 'saathi', labelKey: 'saathi', subHindi: 'AI साथी', subEnglish: 'AI Companion', icon: Bot, color: 'text-[#1E56A0]' },
     { id: 'reminders', labelKey: 'myDay', subHindi: 'मेरी यादें', subEnglish: 'Routine', icon: CalendarCheck, color: 'text-[#E98A20]' },
     { id: 'progress', labelKey: 'progress', subHindi: 'प्रगति स्कोर', subEnglish: 'Scores', icon: TrendingUp, color: 'text-[#167A55]' },
     { id: 'family', labelKey: 'family', subHindi: 'केयरगिवर', subEnglish: 'Caregiver', icon: Heart, color: 'text-[#E84D78]' },

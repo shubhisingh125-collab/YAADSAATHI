@@ -17,6 +17,8 @@ import {
 } from '../services/locationService';
 import { useI18n } from '../i18n/I18nContext';
 import { calculateAdaptiveDifficulty } from '../logic/adaptiveEngine';
+import { useAuth } from './AuthContext';
+import { setActiveLocalUserId } from '../services/gamePersistenceService';
 
 const AppContext = createContext(null);
 
@@ -58,10 +60,44 @@ export function AppProvider({ children }) {
   }, [fontScale]);
 
   // Patient Profile
+  const auth = useAuth();
   const [patient, setPatient] = useState(() => {
     const saved = localStorage.getItem('yaadsaathi_patient');
     return saved ? JSON.parse(saved) : INITIAL_PATIENT_PROFILE;
   });
+
+  // Keep patient profile synchronized with active Supabase Auth user profile
+  useEffect(() => {
+    if (auth?.user) {
+      setActiveLocalUserId(auth.user.id);
+    } else {
+      setActiveLocalUserId('guest-elder-local');
+    }
+
+    if (auth?.profile) {
+      const p = auth.profile;
+      const displayName = p.display_name || p.name || '';
+      const preferredName = p.preferred_name || displayName;
+      if (displayName) {
+        setPatient((prev) => ({
+          ...prev,
+          id: p.user_id || auth.user?.id || prev.id,
+          name: displayName,
+          nameEnglish: displayName,
+          nameHindi: displayName,
+          preferredName: preferredName || displayName,
+          age: p.age || prev.age || 70,
+          stateOrRegion: p.state_or_region || prev.stateOrRegion || 'ASSAM',
+          primaryLanguage: p.preferred_language || prev.primaryLanguage || 'hi',
+          homeAddress: p.home_address || prev.homeAddress,
+          homeAddressEnglish: p.home_address || prev.homeAddressEnglish,
+          homeAddressHindi: p.home_address || prev.homeAddressHindi,
+          emergencyContact: p.emergency_contact || prev.emergencyContact,
+          doctorContact: p.doctor_contact || prev.doctorContact,
+        }));
+      }
+    }
+  }, [auth?.user, auth?.profile]);
 
   // Step Tracker State (Mock demo data stored locally)
   const [stepsToday, setStepsToday] = useState(() => {
@@ -273,12 +309,15 @@ export function AppProvider({ children }) {
     (med) => {
       setActiveMedicineReminder(med);
 
+      const elderNameEn = patient.preferredName || patient.nameEnglish || patient.name || 'Friend';
+      const elderNameHi = patient.preferredName || patient.nameHindi || patient.name || 'वरिष्ठ सदस्य';
+
       // Browser Notification (Requirement 14)
       if (typeof window !== 'undefined' && 'Notification' in window) {
         if (Notification.permission === 'granted') {
           try {
             new Notification('YaadSaathi Medicine Reminder', {
-              body: `${patient.nameEnglish || 'Damodar Ji'}, it is time to take your ${med.name} (${med.dosage}).`,
+              body: `${elderNameEn}, it is time to take your ${med.name} (${med.dosage}).`,
               icon: '/favicon.ico',
             });
           } catch (e) {}
@@ -287,7 +326,7 @@ export function AppProvider({ children }) {
             if (perm === 'granted') {
               try {
                 new Notification('YaadSaathi Medicine Reminder', {
-                  body: `${patient.nameEnglish || 'Damodar Ji'}, it is time to take your ${med.name} (${med.dosage}).`,
+                  body: `${elderNameEn}, it is time to take your ${med.name} (${med.dosage}).`,
                   icon: '/favicon.ico',
                 });
               } catch (err) {}
@@ -298,8 +337,8 @@ export function AppProvider({ children }) {
 
       // Voice Reminder (Requirement 16)
       voice.speak(
-        `${patient.nameHindi || 'दामोदर जी'}, आपकी दवाई लेने का समय हो गया है। कृपया दवाई लेने के बाद 'मैंने दवाई ले ली' बटन दबाएं।`,
-        `${patient.nameEnglish || 'Damodar Ji'}, it is time to take your medicine. Please press 'I Took My Medicine' after taking it.`
+        `${elderNameHi}, आपकी दवाई लेने का समय हो गया है। कृपया दवाई लेने के बाद 'मैंने दवाई ले ली' बटन दबाएं।`,
+        `${elderNameEn}, it is time to take your medicine. Please press 'I Took My Medicine' after taking it.`
       );
     },
     [patient, voice]

@@ -8,6 +8,7 @@ import {
 import { useApp } from '../context/AppContext';
 import { useI18n } from '../i18n/I18nContext';
 import VoiceButton from './VoiceButton';
+import UserBadge from './Auth/UserBadge';
 
 export default function Header() {
   const {
@@ -24,8 +25,18 @@ export default function Header() {
 
   const { t, toggleLanguage, isHindi } = useI18n();
 
-  const greetingHindi = `नमस्ते ${patient.nameHindi || 'दामोदर जी'}! आज हम साथ में कुछ अच्छा और नया करेंगे।`;
-  const greetingEnglish = `Good day ${patient.nameEnglish || 'Damodar Sharma Ji'}. Today is a new day to create a new memory.`;
+  const seniorDisplayName =
+    patient?.preferredName ||
+    patient?.displayName ||
+    (isHindi ? (patient?.nameHindi || patient?.name || '') : (patient?.nameEnglish || patient?.name || ''));
+
+  const greetingHindi = seniorDisplayName
+    ? `नमस्ते ${seniorDisplayName}! आज हम साथ में कुछ अच्छा और नया करेंगे।`
+    : 'नमस्ते! यादसाथी में आपका स्वागत है। आज हम साथ में कुछ अच्छा करेंगे।';
+
+  const greetingEnglish = seniorDisplayName
+    ? `Good day ${seniorDisplayName}. Today is a new day to create a new memory.`
+    : 'Welcome to YaadSaathi! Today is a new day to create a new memory.';
 
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur border-b-2 border-[#DFF3E7] shadow-sm">
@@ -116,6 +127,9 @@ export default function Header() {
             <Globe className="w-4 h-4 text-[#167A55]" />
             <span>{isHindi ? '🌐 English' : '🇮🇳 हिंदी'}</span>
           </button>
+
+          {/* User Account & Cloud Sync Badge */}
+          <UserBadge />
 
           {/* Settings Shortcut */}
           <button

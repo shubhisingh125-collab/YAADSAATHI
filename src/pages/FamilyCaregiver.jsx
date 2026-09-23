@@ -163,12 +163,12 @@ export default function FamilyCaregiver() {
                 <div className="flex items-center gap-2.5 shrink-0 flex-wrap">
                   <button
                     id={`call-elderly-alert-${alert.id}`}
-                    onClick={() => handleSimulateCall(patient.nameHindi || 'दामोदर जी', '+91 98765 43210')}
+                    onClick={() => handleSimulateCall(patient?.nameHindi || patient?.name || 'वरिष्ठ सदस्य', patient.emergencyContact?.phone || '+91 98765 43210')}
                     className="tactile-btn px-4 py-2.5 rounded-2xl bg-[#E84D78] text-white font-black text-sm sm:text-base flex items-center gap-2 cursor-pointer shadow-xs"
                     aria-label="Call senior regarding medicine"
                   >
                     <PhoneCall className="w-4 h-4 stroke-[2.5]" />
-                    <span>📞 {t('callDamodar')}</span>
+                    <span>📞 {t('callElder')}</span>
                   </button>
 
                   <button
@@ -232,11 +232,11 @@ export default function FamilyCaregiver() {
             </button>
             <button
               id="family-alert-call-btn"
-              onClick={() => handleSimulateCall(patient.nameHindi, '+91 98765 43210')}
+              onClick={() => handleSimulateCall(patient?.nameHindi || patient?.name || 'वरिष्ठ सदस्य', patient.emergencyContact?.phone || '+91 98765 43210')}
               className="tactile-btn px-4 py-3 rounded-2xl bg-[#E84D78] text-white font-black text-base flex items-center gap-2 cursor-pointer shadow-xs"
             >
               <PhoneCall className="w-5 h-5 stroke-[2.5]" />
-              <span>📞 {t('callDamodar')}</span>
+              <span>📞 {t('callElder')}</span>
             </button>
           </div>
         </div>
@@ -305,11 +305,11 @@ export default function FamilyCaregiver() {
 
             <button
               id="family-call-damodar-btn"
-              onClick={() => handleSimulateCall(isHindi ? patient.nameHindi : patient.nameEnglish, patient.emergencyContact?.phone)}
+              onClick={() => handleSimulateCall(isHindi ? (patient?.nameHindi || patient?.name) : (patient?.nameEnglish || patient?.name), patient.emergencyContact?.phone)}
               className="tactile-btn px-5 py-3 rounded-2xl bg-white hover:bg-[#FBFAF4] border-2 border-[#167A55] text-[#167A55] font-black text-base flex items-center gap-2 cursor-pointer"
             >
               <PhoneCall className="w-5 h-5 stroke-[2.5]" />
-              <span>📞 {t('callDamodar')}</span>
+              <span>📞 {t('callElder')}</span>
             </button>
           </div>
         </div>
@@ -669,11 +669,11 @@ export default function FamilyCaregiver() {
                     {isNotConfirmed && (
                       <>
                         <button
-                          onClick={() => handleSimulateCall(patient.nameHindi || 'दामोदर जी', '+91 98765 43210')}
+                          onClick={() => handleSimulateCall(patient?.nameHindi || patient?.name || 'वरिष्ठ सदस्य', patient.emergencyContact?.phone || '+91 98765 43210')}
                           className="tactile-btn flex-1 py-3 rounded-2xl bg-[#E84D78] text-white font-black text-sm flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
                         >
                           <PhoneCall className="w-4 h-4 stroke-[2.5]" />
-                          <span>📞 {t('callDamodar')}</span>
+                          <span>📞 {t('callElder')}</span>
                         </button>
 
                         <button

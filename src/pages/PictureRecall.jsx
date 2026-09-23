@@ -186,7 +186,7 @@ export default function PictureRecall() {
     voice.speak(t('pictureRecallRulesSpeech'), t('pictureRecallRulesSpeech'));
   };
 
-  const patientName = isHindi ? (patient.nameHindi || 'दामोदर जी') : (patient.nameEnglish || 'Damodar Ji');
+  const patientName = patient?.preferredName || (isHindi ? (patient?.nameHindi || patient?.name || 'वरिष्ठ सदस्य') : (patient?.nameEnglish || patient?.name || 'Dear Senior'));
 
   return (
     <div className="space-y-6 pb-12 animate-fade-in text-left">

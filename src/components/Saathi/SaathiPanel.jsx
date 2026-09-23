@@ -14,8 +14,8 @@ import SaathiConversation from './SaathiConversation';
 
 export default function SaathiPanel() {
   const { isPanelOpen, closeSaathi, processInput, proactiveMoment, isMicAvailable } = useSaathi();
-  const { patient } = useApp();
-  const { isHindi } = useI18n();
+  const { patient, navigateTo } = useApp();
+  const { isHindi, t } = useI18n();
   const [inputText, setInputText] = useState('');
   const [showDemoChips, setShowDemoChips] = useState(true);
 
@@ -32,7 +32,7 @@ export default function SaathiPanel() {
     processInput(query);
   };
 
-  const seniorName = isHindi ? (patient?.nameHindi || 'दामोदर जी') : (patient?.nameEnglish || 'Mr. Damodar');
+  const seniorName = patient?.preferredName || (isHindi ? (patient?.nameHindi || patient?.name || 'वरिष्ठ साथी') : (patient?.nameEnglish || patient?.name || 'Dear Senior'));
 
   // Suggested 1-tap Action Chips (Requirement 3)
   const suggestedActions = [
@@ -109,14 +109,27 @@ export default function SaathiPanel() {
             </div>
           </div>
 
-          <button
-            id="close-saathi-panel-btn"
-            onClick={closeSaathi}
-            aria-label={isHindi ? 'बंद करें' : 'Close Saathi'}
-            className="w-12 h-12 rounded-2xl bg-white/20 hover:bg-white/30 active:scale-95 text-white flex items-center justify-center cursor-pointer transition-all border border-white/20 shrink-0"
-          >
-            <X className="w-7 h-7 stroke-[2.5]" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                closeSaathi();
+                navigateTo('saathi');
+              }}
+              title={isHindi ? 'फुल स्क्रीन चैट खोलें' : 'Open Full Screen Chat'}
+              className="px-3.5 py-2.5 rounded-2xl bg-white/20 hover:bg-white/30 text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 cursor-pointer transition-all border border-white/20 shrink-0"
+            >
+              <span>💬</span>
+              <span className="hidden sm:inline">{isHindi ? 'पूरी चैट' : 'Full Chat'}</span>
+            </button>
+            <button
+              id="close-saathi-panel-btn"
+              onClick={closeSaathi}
+              aria-label={isHindi ? 'बंद करें' : 'Close Saathi'}
+              className="w-12 h-12 rounded-2xl bg-white/20 hover:bg-white/30 active:scale-95 text-white flex items-center justify-center cursor-pointer transition-all border border-white/20 shrink-0"
+            >
+              <X className="w-7 h-7 stroke-[2.5]" />
+            </button>
+          </div>
         </div>
 
         {/* Proactive "Saathi Moment" Note */}

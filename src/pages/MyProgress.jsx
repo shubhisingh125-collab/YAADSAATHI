@@ -54,8 +54,8 @@ export default function MyProgress() {
           <h1 className="text-3xl sm:text-5xl font-black text-[#102A43]">{t('progressTitle')}</h1>
           <p className="text-xl sm:text-2xl font-black text-[#167A55]">
             {isHindi
-              ? `${patient.nameHindi || 'दामोदर जी'} - आपका नियमित अभ्यास मस्तिष्क को सक्रिय और शांत रखता है।`
-              : `${patient.nameEnglish || 'Damodar Ji'} - Your playful practice keeps memory bright.`}
+              ? `${patient?.preferredName || patient?.nameHindi || patient?.name || 'वरिष्ठ सदस्य'} - आपका नियमित अभ्यास मस्तिष्क को सक्रिय और शांत रखता है।`
+              : `${patient?.preferredName || patient?.nameEnglish || patient?.name || 'Dear Senior'} - Your playful practice keeps memory bright.`}
           </p>
           <p className="text-base sm:text-lg font-bold text-[#5D7184]">{t('progressSub')}</p>
         </div>

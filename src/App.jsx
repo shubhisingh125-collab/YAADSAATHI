@@ -11,20 +11,30 @@ import LanguageSelection from './pages/LanguageSelection';
 // Home and Games Hub load eagerly (first screens most users see).
 import Home from './pages/Home';
 import GamesHub from './pages/GamesHub';
-
-// Heavier screens are code-split and lazy-loaded on first visit.
+// Code-split and lazy-loaded screens for high performance and fast initial load.
 const MemoryMatch = lazy(() => import('./pages/MemoryMatch'));
 const PatternRecognition = lazy(() => import('./pages/PatternRecognition'));
 const WordRecall = lazy(() => import('./pages/WordRecall'));
 const PictureRecall = lazy(() => import('./pages/PictureRecall'));
+const DailyRoutineRecall = lazy(() => import('./pages/DailyRoutineRecall'));
+const SequenceRecall = lazy(() => import('./pages/SequenceRecall'));
+const PatternComplete = lazy(() => import('./pages/PatternComplete'));
+const FindDifference = lazy(() => import('./pages/FindDifference'));
+const DailyPlan = lazy(() => import('./pages/DailyPlan'));
 const Reminders = lazy(() => import('./pages/Reminders'));
 const MyProgress = lazy(() => import('./pages/MyProgress'));
 const FamilyCaregiver = lazy(() => import('./pages/FamilyCaregiver'));
 const Settings = lazy(() => import('./pages/Settings'));
+const NERProfile = lazy(() => import('./pages/NERProfile'));
+const PersonalMemories = lazy(() => import('./pages/PersonalMemories'));
+const PersonalMemory = lazy(() => import('./pages/PersonalMemory'));
+const SaathiChat = lazy(() => import('./pages/SaathiChat'));
 
 import SaathiButton from './components/Saathi/SaathiButton';
 import SaathiPanel from './components/Saathi/SaathiPanel';
 import MedicineReminderModal from './components/MedicineReminderModal';
+import AuthModal from './components/Auth/AuthModal';
+import UserProfileOnboarding from './components/Auth/UserProfileOnboarding';
 
 function ScreenLoadingFallback() {
   const { t } = useI18n();
@@ -48,6 +58,8 @@ export default function App() {
     switch (currentScreen) {
       case 'home':
         return <Home />;
+      case 'daily-plan':
+        return <DailyPlan />;
       case 'games':
         return <GamesHub />;
       case 'memory-match':
@@ -58,6 +70,14 @@ export default function App() {
         return <WordRecall />;
       case 'picture-recall':
         return <PictureRecall />;
+      case 'daily-routine-recall':
+        return <DailyRoutineRecall />;
+      case 'sequence-recall':
+        return <SequenceRecall />;
+      case 'pattern-complete':
+        return <PatternComplete />;
+      case 'find-difference':
+        return <FindDifference />;
       case 'reminders':
         return <Reminders />;
       case 'progress':
@@ -66,6 +86,14 @@ export default function App() {
         return <FamilyCaregiver />;
       case 'settings':
         return <Settings />;
+      case 'ner-profile':
+        return <NERProfile />;
+      case 'personal-memories':
+        return <PersonalMemories />;
+      case 'personal-memory':
+        return <PersonalMemory />;
+      case 'saathi':
+        return <SaathiChat />;
       default:
         return <Home />;
     }
@@ -105,6 +133,12 @@ export default function App() {
 
       {/* Active Medicine Scheduled Reminder Modal */}
       <MedicineReminderModal />
+
+      {/* Cloud Authentication Modal */}
+      <AuthModal />
+
+      {/* First-Time User Profile Setup & Onboarding */}
+      <UserProfileOnboarding />
     </div>
   );
 }

@@ -51,7 +51,7 @@ export function SaathiProvider({ children }) {
   useEffect(() => {
     if (isPanelOpen && !initialGreetingDone.current) {
       initialGreetingDone.current = true;
-      const seniorTitle = isHindi ? (patient?.nameHindi || 'दामोदर जी') : (patient?.nameEnglish || 'Mr. Damodar');
+      const seniorTitle = patient?.preferredName || (isHindi ? (patient?.nameHindi || patient?.name || 'वरिष्ठ साथी') : (patient?.nameEnglish || patient?.name || 'Friend'));
       const welcomeText = isHindi
         ? `नमस्ते ${seniorTitle}, मैं साथी हूँ। आज किस चीज़ में मदद करूँ?`
         : `Namaste ${seniorTitle}, I am Saathi. How may I help you today?`;
@@ -72,11 +72,12 @@ export function SaathiProvider({ children }) {
     const unconfirmedMed = medicines.find(m => m.status === 'not_confirmed');
     const pendingMed = medicines.find(m => m.status === 'reminder_pending');
 
+    const seniorTitle = patient?.preferredName || (isHindi ? (patient?.nameHindi || patient?.name || 'वरिष्ठ साथी') : (patient?.nameEnglish || patient?.name || 'Friend'));
     if (unconfirmedMed) {
       setProactiveMoment(
         isHindi
-          ? `${patient?.nameHindi || 'दामोदर जी'}, आपकी ${unconfirmedMed.name} अभी तक पुष्ट नहीं हुई है।`
-          : `${patient?.nameEnglish || 'Mr. Damodar'}, your ${unconfirmedMed.name} is not confirmed yet.`
+          ? `${seniorTitle}, आपकी ${unconfirmedMed.name} अभी तक पुष्ट नहीं हुई है।`
+          : `${seniorTitle}, your ${unconfirmedMed.name} is not confirmed yet.`
       );
     } else if (pendingMed) {
       setProactiveMoment(
@@ -93,8 +94,8 @@ export function SaathiProvider({ children }) {
     } else {
       setProactiveMoment(
         isHindi
-          ? 'नमस्ते दामोदर जी। क्या आप आज की दिनचर्या सुनना चाहेंगे?'
-          : 'Good day Mr. Damodar. Would you like to hear today\'s plan?'
+          ? `नमस्ते ${seniorTitle}। क्या आप आज की दिनचर्या सुनना चाहेंगे?`
+          : `Good day ${seniorTitle}. Would you like to hear today's plan?`
       );
     }
   }, [medicines, gameScores, isHindi, patient]);
@@ -127,7 +128,7 @@ export function SaathiProvider({ children }) {
     if (!rawText || !rawText.trim()) return;
     const cleanText = rawText.trim();
     const langCode = isHindi ? 'hi-IN' : 'en-IN';
-    const seniorTitle = isHindi ? (patient?.nameHindi || 'दामोदर जी') : (patient?.nameEnglish || 'Mr. Damodar');
+    const seniorTitle = patient?.preferredName || (isHindi ? (patient?.nameHindi || patient?.name || 'वरिष्ठ साथी') : (patient?.nameEnglish || patient?.name || 'Friend'));
 
     // Add user message to conversation history
     const userMsg = {
